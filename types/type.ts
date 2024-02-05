@@ -1,3 +1,5 @@
+import { TypedObject } from '@portabletext/types';
+
 export type CartItem = {
   id: string;
   name: string;
@@ -9,7 +11,7 @@ export type Product = {
   id: string;
   name: string;
   price: number;
-  description: object[];
+  description: TypedObject[];
   //   currency: string;
   //   imageSrc: string;
   //   imageAlt: string;

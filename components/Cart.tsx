@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { ShoppingCart } from "lucide-react";
-import { Button } from "./ui/button";
+import { ShoppingCart } from 'lucide-react';
+import { Button } from './ui/button';
 import {
   Sheet,
   SheetClose,
@@ -11,16 +11,14 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
-import { useShoppingCart } from "@/lib/useShoppingCart";
-import dynamic from "next/dynamic";
+} from './ui/sheet';
+import dynamic from 'next/dynamic';
 
-const CartItemsList = dynamic(() => import("../components/CartItemsList"), {
+const CartContent = dynamic(() => import('../components/CartContent'), {
   loading: () => <p>Loading cart...</p>,
 });
 
 const Cart = () => {
-  const { getCartItems, addItemToCart } = useShoppingCart();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -33,12 +31,7 @@ const Cart = () => {
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
           <SheetDescription></SheetDescription>
-          <CartItemsList />
-          <form action="/api/checkout_sessions" method="POST">
-            <button type="submit" id="checkout-button">
-              Checkout
-            </button>
-          </form>
+          <CartContent />
         </SheetHeader>
         <SheetFooter></SheetFooter>
       </SheetContent>

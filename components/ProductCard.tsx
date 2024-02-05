@@ -2,6 +2,7 @@ import React from "react";
 import AddToCart from "./AddToCart";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Product } from "@/types/type";
+import {PortableText} from '@portabletext/react'
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
@@ -9,7 +10,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <Card key={product.id}>
         <CardHeader>{product.name}</CardHeader>
         <CardContent>
-          <p>{JSON.stringify(product.description)}</p>
+          <PortableText value={product.description} />
         </CardContent>
         <CardFooter>
           <AddToCart product={product} />
