@@ -19,6 +19,8 @@ export function useLocalStorage(key: string, initialValue?: any) {
 
   const [state, setState] = useState(getInitialValue());
 
+  const getStoredState = () => JSON.parse(state);
+
   const setStoredState = (newValue: any) => {
     setState(newValue);
     window.localStorage.setItem(key, newValue);

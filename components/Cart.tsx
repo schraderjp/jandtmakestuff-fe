@@ -12,8 +12,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
+import { useShoppingCart } from '@/lib/useShoppingCart';
 
 const Cart = () => {
+  const { getCartItems, addItemToCart } = useShoppingCart();
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -25,7 +27,14 @@ const Cart = () => {
         <SheetClose></SheetClose>
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
-          <SheetDescription></SheetDescription>
+          <SheetDescription>
+            {JSON.stringify(getCartItems())}
+            <button
+              onClick={() => addItemToCart({ id: 'adfadsf', name: 'asdfasdf' })}
+            >
+              Add
+            </button>
+          </SheetDescription>
         </SheetHeader>
         <SheetFooter></SheetFooter>
       </SheetContent>
