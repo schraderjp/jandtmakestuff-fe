@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { Loader2Icon, LoaderIcon } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import React from 'react';
+import { Loader2Icon, LoaderIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import React from "react";
+import Cart from "./Cart";
 
-const Cart = dynamic(() => import('../components/Cart'), {
-  ssr: false,
-  loading: () => <Loader />,
-});
+// const Cart = dynamic(() => import('../components/Cart'), {
+//   ssr: false,
+//   loading: () => <Loader />,
+// });
 
 const Loader = () => <Loader2Icon className="ml-auto animate-spin" size={24} />;
 

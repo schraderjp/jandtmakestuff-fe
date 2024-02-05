@@ -1,21 +1,12 @@
-import React from 'react';
-import ProductCard from './ProductCard';
-import stripe from '@/config/stripe';
-
-async function getStripeProducts() {
-  try {
-    const stripeProducts = await stripe.products.list();
-    return stripeProducts;
-  } catch (error) {
-    throw new Error('Error retrieving products');
-  }
-}
+import React from "react";
+import ProductCard from "./ProductCard";
+import { getProducts } from "@/app/utils/sanityConfig";
 
 const ProductList = async () => {
-  const products = await getStripeProducts();
+  const products = await getProducts();
   return (
     <>
-      {products.data.map((product) => (
+      {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </>

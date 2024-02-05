@@ -1,21 +1,19 @@
-// export type CartItem = {
-//   id: string;
-//   name: string;
-//   price: number;
-//   currency: string;
-//   quantity: number;
-// };
+export type CartItem = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+};
 
-import Stripe from "stripe"
-
-// export type Product = {
-//   id: string;
-//   name: string;
-//   price: number;
-//   currency: string;
-//   imageSrc: string;
-//   imageAlt: string;
-// };
+export type Product = {
+  id: string;
+  name: string;
+  price: number;
+  description: object[];
+  //   currency: string;
+  //   imageSrc: string;
+  //   imageAlt: string;
+};
 
 // export type Cart = {
 //   lineItems: Stripe.Product[]
