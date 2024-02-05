@@ -1,21 +1,21 @@
-import { Product } from '@/types/type';
 import React from 'react';
 import AddToCart from './AddToCart';
 import { Card, CardContent, CardFooter, CardHeader } from './ui/card';
+import Stripe from 'stripe';
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: Stripe.Product }) => {
   return (
-    <>
-      <Card>
+    <div className='p-2'>
+      <Card key={product.id}>
         <CardHeader>{product.name}</CardHeader>
         <CardContent>
-          <p>Product Description</p>
+          <p>{product.description}</p>
         </CardContent>
         <CardFooter>
           <AddToCart />
         </CardFooter>
       </Card>
-    </>
+    </div>
   );
 };
 

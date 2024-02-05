@@ -3,12 +3,10 @@ import { getProducts } from './utils/sanityConfig';
 import { Button } from '@/components/ui/button';
 import Cart from '@/components/Cart';
 
-export default async function Home() {
-  const products = await getProducts();
+export default function Home() {
   return (
     <main>
-      <Cart />
-      <ProductList products={products} />
+      <ProductList />
     </main>
   );
 }

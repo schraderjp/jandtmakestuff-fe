@@ -1,14 +1,24 @@
-import { Product } from '@/types/type';
 import React from 'react';
 import ProductCard from './ProductCard';
+import stripe from '@/config/stripe';
 
-const ProductList = ({ products }: { products: Product[] }) => {
+async function getStripeProducts() {
+  try {
+    const stripeProducts = await stripe.products.list();
+    return stripeProducts;
+  } catch (error) {
+    throw new Error('Error retrieving products');
+  }
+}
+
+const ProductList = async () => {
+  const products = await getStripeProducts();
   return (
-    <div>
-      {products.map((product) => (
+    <>
+      {products.data.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
-    </div>
+    </>
   );
 };
 
