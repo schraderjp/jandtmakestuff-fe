@@ -1,4 +1,4 @@
-import { TypedObject } from '@portabletext/types';
+import { TypedObject } from "@portabletext/types";
 
 export type CartItem = {
   id: string;
@@ -17,6 +17,8 @@ export type Product = {
   //   imageAlt: string;
 };
 
-// export type Cart = {
-//   lineItems: Stripe.Product[]
-// }
+export type Cart = {
+  lineItems: CartItem[];
+  totalQty: number;
+  subtotal: number;
+};
