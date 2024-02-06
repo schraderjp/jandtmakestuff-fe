@@ -1,14 +1,16 @@
-import { Product } from "@/types/type";
+import { CartItem, Product } from "@/types/type";
 import { useCartContext } from "@/providers/CartProvider";
 
 export function useShoppingCart() {
   const { cart, setCart } = useCartContext();
 
-  function getCartItems() {
-    return cart?.lineItems;
+  function updateSubtotal(lineItems: CartItem[]) {
+    let newSubtotal: number = 0;
+    lineItems.forEach((item) => {
+      newSubtotal += item.price;
+    });
+    return newSubtotal;
   }
-
-  const cartItems = getCartItems();
 
   function addItemToCart(newItem: Product) {
     if (typeof cart === "undefined") return console.log("Cart not available");
@@ -19,12 +21,12 @@ export function useShoppingCart() {
       price: newItem.price,
       quantity: 1,
     };
-    if (itemIndex === -1)
-      return setCart({
-        lineItems: [...cart?.lineItems, itemToAdd],
-        totalQty: cart?.totalQty,
-        subtotal: cart?.subtotal,
-      });
+    if (itemIndex === -1) {
+      const newLineItems = [...cart?.lineItems, itemToAdd];
+      setCart({ ...cart, lineItems: newLineItems });
+      console.log(updateSubtotal(newLineItems));
+      return;
+    }
     const lineItems = [...cart.lineItems];
     lineItems[itemIndex].quantity = lineItems[itemIndex].quantity + 1;
     setCart({

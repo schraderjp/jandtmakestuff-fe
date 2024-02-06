@@ -39,7 +39,7 @@ const CartItemsList = () => {
             </TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell>{item.quantity}</TableCell>
-            <TableCell>{item.price}</TableCell>
+            <TableCell>${item.price.toFixed(2)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

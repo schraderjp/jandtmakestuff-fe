@@ -11,7 +11,7 @@ export const client = createClient({
 
 export async function getProducts(): Promise<Product[]> {
   const products = await client.fetch(
-    '*[_type == "product" ] {"id": _id, name, description}'
+    '*[_type == "product" ] {"id": _id, name, description, price}'
   );
   // console.log(products);
   return products;
