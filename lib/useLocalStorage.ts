@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+const isServer = typeof window === 'undefined';
+
 export function useLocalStorage(key: string, initialValue?: any) {
   function getInitialValue() {
     const storedData = window.localStorage.getItem(key);

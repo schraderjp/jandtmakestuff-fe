@@ -5,8 +5,8 @@ import { initiateCheckout } from '@/lib/actions';
 import CartItemsList from '../components/CartItemsList';
 
 const CartContent = () => {
-  const { getCartItems, addItemToCart } = useShoppingCart();
-  const initiateCheckoutWithData = initiateCheckout.bind(null, getCartItems());
+  const { cartItems, addItemToCart } = useShoppingCart();
+  const initiateCheckoutWithData = initiateCheckout.bind(null, cartItems);
   return (
     <>
       <CartItemsList />

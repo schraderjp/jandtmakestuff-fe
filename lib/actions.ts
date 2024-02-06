@@ -6,9 +6,9 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 
-export async function initiateCheckout(cartItems: CartItem[]) {
+export async function initiateCheckout(cartItems: CartItem[] | undefined) {
   let session: Stripe.Checkout.Session;
-  const lineItems = cartItems.map((i) => ({
+  const lineItems = cartItems?.map((i) => ({
     price_data: {
       currency: 'usd',
       product_data: {

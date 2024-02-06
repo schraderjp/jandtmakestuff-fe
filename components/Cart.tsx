@@ -12,11 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from './ui/sheet';
-import dynamic from 'next/dynamic';
-
-const CartContent = dynamic(() => import('../components/CartContent'), {
-  loading: () => <p>Loading cart...</p>,
-});
+import CartContent from './CartContent';
 
 const Cart = () => {
   return (

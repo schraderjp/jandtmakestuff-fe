@@ -1,12 +1,11 @@
-import React from "react";
-import { useShoppingCart } from "@/lib/useShoppingCart";
+import React from 'react';
+import { useShoppingCart } from '@/lib/useShoppingCart';
 
 const CartItemsList = () => {
-  const { getCartItems, removeItemFromCart } = useShoppingCart();
-  const cartItems = getCartItems();
+  const { cartItems, removeItemFromCart } = useShoppingCart();
   return (
     <div>
-      {cartItems.map((item) => (
+      {cartItems?.map((item) => (
         <div key={item.id}>
           <p>{item.name}</p>
           <p>{item.price}</p>
