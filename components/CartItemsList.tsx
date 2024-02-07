@@ -1,5 +1,5 @@
-import React from "react";
-import { useShoppingCart } from "@/lib/useShoppingCart";
+import React from 'react';
+import { useCart } from '@/lib/useCart';
 import {
   Table,
   TableBody,
@@ -8,13 +8,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "./ui/button";
-import { X } from "lucide-react";
+} from '@/components/ui/table';
+import { Button } from './ui/button';
+import { X } from 'lucide-react';
 
 const CartItemsList = () => {
-  const { cart, removeItemFromCart } = useShoppingCart();
-  if (cart.lineItems.length === 0) return <p>Your cart is currently empty.</p>;
+  const { items, removeItem, cartTotal } = useCart();
+  if (items.length === 0) return <p>Your cart is currently empty.</p>;
   return (
     <Table>
       <TableHeader>
@@ -26,13 +26,13 @@ const CartItemsList = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {cart.lineItems.map((item) => (
+        {items.map((item) => (
           <TableRow key={item.id}>
             <TableCell>
               <Button
                 className="px-1 py-1"
-                variant={"outline"}
-                onClick={() => removeItemFromCart(item.id)}
+                variant={'outline'}
+                onClick={() => removeItem(item.id)}
               >
                 <X />
               </Button>
@@ -48,7 +48,7 @@ const CartItemsList = () => {
           <TableCell className="text-left" colSpan={3}>
             Subtotal:
           </TableCell>
-          <TableCell>${cart?.subtotal?.toFixed(2)}</TableCell>
+          <TableCell>${cartTotal.toFixed(2)}</TableCell>
         </TableRow>
       </TableFooter>
     </Table>

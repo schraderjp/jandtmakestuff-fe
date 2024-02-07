@@ -1,8 +1,8 @@
-import React from "react";
-import AddToCart from "./AddToCart";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { Product } from "@/types/type";
-import {PortableText} from '@portabletext/react'
+import React from 'react';
+import AddToCart from './AddToCart';
+import { Card, CardContent, CardFooter, CardHeader } from './ui/card';
+import { Product } from '@/types/type';
+import { PortableText } from '@portabletext/react';
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button } from './ui/button';
-import { useShoppingCart } from '@/lib/useShoppingCart';
+import { useCart } from '@/lib/useCart';
 import { initiateCheckout } from '@/lib/actions';
 import CartItemsList from '../components/CartItemsList';
 
 const CartContent = () => {
-  const { cartItems, addItemToCart } = useShoppingCart();
-  const initiateCheckoutWithData = initiateCheckout.bind(null, cartItems);
+  const { items } = useCart();
+  const initiateCheckoutWithData = initiateCheckout.bind(null, items);
   return (
     <>
       <CartItemsList />

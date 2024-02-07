@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { CartProvider } from "@/providers/CartProvider";
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Navbar from '@/components/Navbar';
+import { CartProvider } from '@/lib/useCart';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "J and T Make Stuff",
-  description: "3D prints, sewing and more!",
+  title: 'J and T Make Stuff',
+  description: '3D prints, sewing and more!',
 };
 
 export default function RootLayout({
