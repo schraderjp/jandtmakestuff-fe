@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { ShoppingCart } from 'lucide-react';
-import { Button } from './ui/button';
+import { ShoppingCart } from "lucide-react";
+import { Button } from "./ui/button";
+import { initiateCheckout } from "@/lib/actions";
 import {
   Sheet,
   SheetClose,
@@ -11,10 +12,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from './ui/sheet';
-import CartContent from './CartContent';
+} from "./ui/sheet";
+import { useCart } from "@/lib/useCart";
+import CartItemsList from "./CartItemsList";
 
 const Cart = () => {
+  const { items } = useCart();
+  const initiateCheckoutWithData = initiateCheckout.bind(null, items);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -22,14 +26,23 @@ const Cart = () => {
           <ShoppingCart size={24} />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="h-full">
         <SheetClose></SheetClose>
         <SheetHeader>
-          <SheetTitle>Shopping Cart</SheetTitle>
+          <SheetTitle className="text-center">Shopping Cart</SheetTitle>
           <SheetDescription></SheetDescription>
-          <CartContent />
+          <CartItemsList />
         </SheetHeader>
-        <SheetFooter></SheetFooter>
+        <SheetFooter>
+          <form
+            className="mt-auto py-2 w-full text-center"
+            action={initiateCheckoutWithData}
+          >
+            <Button className="w-full" type="submit" id="checkout-button">
+              Checkout
+            </Button>
+          </form>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

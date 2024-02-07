@@ -9,6 +9,7 @@ export function useShoppingCart() {
     lineItems.forEach((item) => {
       newSubtotal += item.price;
     });
+    console.log(newSubtotal);
     return newSubtotal;
   }
 
@@ -23,17 +24,21 @@ export function useShoppingCart() {
     };
     if (itemIndex === -1) {
       const newLineItems = [...cart?.lineItems, itemToAdd];
-      setCart({ ...cart, lineItems: newLineItems });
-      console.log(updateSubtotal(newLineItems));
-      return;
+      setCart({
+        ...cart,
+        lineItems: newLineItems,
+        subtotal: updateSubtotal(newLineItems),
+      });
+    } else {
+      const lineItems = [...cart.lineItems];
+      lineItems[itemIndex].quantity = lineItems[itemIndex].quantity + 1;
+      setCart({
+        lineItems: lineItems,
+        totalQty: cart?.totalQty,
+        subtotal: cart?.subtotal,
+      });
     }
-    const lineItems = [...cart.lineItems];
-    lineItems[itemIndex].quantity = lineItems[itemIndex].quantity + 1;
-    setCart({
-      lineItems: lineItems,
-      totalQty: cart?.totalQty,
-      subtotal: cart?.subtotal,
-    });
+    console.log(cart);
   }
 
   function removeItemFromCart(id: string) {

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { TypedObject } from '@portabletext/types';
+import { TypedObject } from "@portabletext/types";
 import {
   PropsWithChildren,
   Reducer,
@@ -9,8 +9,8 @@ import {
   useEffect,
   useReducer,
   useState,
-} from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+} from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 export type CartItem = {
   id: string;
@@ -35,15 +35,23 @@ interface CartContextType extends InitialState {
 
 type Action =
   | {
-      type: 'ADD_TO_CART';
+      type: "ADD_TO_CART";
       payload: CartItem;
     }
   | {
-      type: 'REMOVE_FROM_CART';
-      payload: string;
+      type: "REMOVE_FROM_CART";
+      id: string;
     }
   | {
-      type: 'CLEAR_CART';
+      type: "CLEAR_CART";
+    }
+  | {
+      type: "UPDATE_ITEM";
+      id: string;
+      payload: object;
+    }
+  | {
+      type: "CLEAR_CART";
     };
 
 const initialState: any = {
@@ -59,43 +67,87 @@ export const CartContext = createContext<CartContextType | undefined>(
 
 const reducer: Reducer<CartContextType, Action> = (state, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case "ADD_TO_CART":
       const itemsAfterAddition = [...state.items, action.payload];
       return generateCartState(state, itemsAfterAddition);
 
-    case 'REMOVE_FROM_CART':
+    case "REMOVE_FROM_CART":
       const itemsAfterRemoval = state.items.filter(
-        (i) => i.id !== action.payload
+        (i: CartItem) => i.id !== action.id
       );
       return generateCartState(state, itemsAfterRemoval);
 
-    case 'CLEAR_CART':
-      return state;
+    case "CLEAR_CART":
+      return initialState;
+
+    case "UPDATE_ITEM":
+      const items = state.items.map((i: CartItem) => {
+        if (i.id !== action.id) return i;
+
+        return {
+          ...i,
+          ...action.payload,
+        };
+      });
+
+      return generateCartState(state, items);
   }
 };
 
 export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
-  const [savedCart, saveCart] = useLocalStorage(
-    'jandtmakestuff-cart',
-    JSON.stringify({ ...initialState })
-  );
+  const [savedCart, saveCart] = useLocalStorage("jandtmakestuff-cart", {
+    ...initialState,
+  });
 
-  const [state, dispatch] = useReducer(reducer, JSON.parse(savedCart));
+  const [state, dispatch] = useReducer(reducer, savedCart);
 
   const addItem = (item: CartItem, quantity = 1) => {
-    if (!item.id) throw new Error('You must provide an `id` for items');
+    if (!item.id) throw new Error("You must provide an `id` for items");
     if (quantity <= 0) return;
-    dispatch({ type: 'ADD_TO_CART', payload: item });
+
+    const currentItem = state.items.find((i: CartItem) => i.id === item.id);
+
+    if (!currentItem) {
+      const payload = { ...item, quantity };
+      dispatch({ type: "ADD_TO_CART", payload });
+      return;
+    }
+
+    const payload = { ...item, quantity: currentItem.quantity + quantity };
+    dispatch({ type: "UPDATE_ITEM", id: item.id, payload: payload });
   };
 
   const removeItem = (itemId: string) => {
     if (state.items.findIndex((i) => i.id === itemId) === -1)
-      throw new Error('You must provide an `id` to remove an item.');
-    dispatch({ type: 'REMOVE_FROM_CART', payload: itemId });
+      throw new Error("You must provide an `id` to remove an item.");
+    dispatch({ type: "REMOVE_FROM_CART", id: itemId });
+  };
+
+  const updateItemQuantity = (id: CartItem["id"], quantity: number) => {
+    if (quantity <= 0) {
+      dispatch({ type: "REMOVE_FROM_CART", id });
+      return;
+    }
+
+    const currentItem = state.items.find((item: CartItem) => item.id === id);
+
+    if (!currentItem) throw new Error("No such item.");
+
+    const payload = { ...currentItem, quantity };
+
+    dispatch({
+      type: "UPDATE_ITEM",
+      id,
+      payload,
+    });
+  };
+
+  const clearCart = () => {
+    dispatch({ type: "CLEAR_CART" });
   };
 
   useEffect(() => {
-    saveCart(JSON.stringify(state));
+    saveCart(state);
   }, [state, saveCart]);
 
   return (
@@ -109,7 +161,7 @@ export const useCart = () => {
   const context = useContext(CartContext);
 
   if (!context) {
-    throw new Error('useCartContext must be used within the CartProvider');
+    throw new Error("useCartContext must be used within the CartProvider");
   }
 
   return context;
