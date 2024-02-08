@@ -65,7 +65,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
     <Card className="overflow-hidden" key={item.id}>
       <div className="flex">
         <div className="p-2">
-          <div className="h-full relative w-16 border flex-shrink items-center justify-center">
+          <div className="h-full relative w-16 sm:w-24 border flex-shrink items-center justify-center">
             {/* To be replaced with Next/Image component once images are added to Sanity schema */}
             <Button
               className="h-8 w-8 absolute -top-2 -left-2 p-0 rounded-full"
