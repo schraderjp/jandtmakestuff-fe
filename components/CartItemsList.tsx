@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import { X } from "lucide-react";
 import { Input } from "./ui/input";
 import CartItemRow from "./CartItemRow";
+import Currency from "./atoms/Currency";
 
 const CartItemsList = () => {
   const { items, removeItem, cartTotal } = useCart();
@@ -24,31 +25,19 @@ const CartItemsList = () => {
       </p>
     );
   return (
-    <div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead></TableHead>
-            <TableHead>Item</TableHead>
-            <TableHead>Qty</TableHead>
-            <TableHead>Price</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item) => (
-            <CartItemRow item={item} />
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell className="text-left" colSpan={3}>
-              Subtotal:
-            </TableCell>
-            <TableCell>${cartTotal.toFixed(2)}</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </div>
+    <>
+      <div className="flex flex-col gap-1">
+        {items.map((item) => (
+          <CartItemRow key={item.id} item={item} />
+        ))}
+      </div>
+      <p className="flex items-center justify-between text-xl font-bold py-3">
+        <span className="inline-block ">Cart Total:</span>
+        <span className="inline-block">
+          <Currency currency="usd" number={cartTotal} />
+        </span>
+      </p>
+    </>
   );
 };
 

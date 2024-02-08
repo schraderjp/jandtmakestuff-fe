@@ -28,31 +28,12 @@ export interface InitialState {
   cartTotal: number;
 }
 
-interface CartContextType extends InitialState {
-  addItem: (item: CartItem) => void;
-  removeItem: (id: string) => void;
-}
-
 type Action =
-  | {
-      type: "ADD_TO_CART";
-      payload: CartItem;
-    }
-  | {
-      type: "REMOVE_FROM_CART";
-      id: string;
-    }
-  | {
-      type: "CLEAR_CART";
-    }
-  | {
-      type: "UPDATE_ITEM";
-      id: string;
-      payload: object;
-    }
-  | {
-      type: "CLEAR_CART";
-    };
+  | { type: "ADD_TO_CART"; payload: CartItem }
+  | { type: "REMOVE_FROM_CART"; id: string }
+  | { type: "CLEAR_CART" }
+  | { type: "UPDATE_ITEM"; id: string; payload: object }
+  | { type: "CLEAR_CART" };
 
 const initialState: any = {
   items: [],
@@ -60,6 +41,15 @@ const initialState: any = {
   totalQuantity: 0,
   cartTotal: 0,
 };
+
+interface CartContextType extends InitialState {
+  addItem: (item: CartItem) => void;
+  removeItem: (id: string) => void;
+  updateItemQuantity: (id: CartItem["id"], quantity: number) => void;
+  incrementQuantity: (id: CartItem["id"]) => void;
+  decrementQuantity: (id: CartItem["id"]) => void;
+  clearCart: () => void;
+}
 
 export const CartContext = createContext<CartContextType | undefined>(
   initialState
@@ -142,6 +132,18 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
     });
   };
 
+  const incrementQuantity = (id: CartItem["id"]) => {
+    const currentItem = state.items.find((item: CartItem) => item.id === id);
+    if (!currentItem) throw new Error("No such item.");
+    updateItemQuantity(id, currentItem.quantity + 1);
+  };
+
+  const decrementQuantity = (id: CartItem["id"]) => {
+    const currentItem = state.items.find((item: CartItem) => item.id === id);
+    if (!currentItem) throw new Error("No such item.");
+    updateItemQuantity(id, currentItem.quantity - 1);
+  };
+
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
@@ -151,7 +153,17 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
   }, [state, saveCart]);
 
   return (
-    <CartContext.Provider value={{ ...state, addItem, removeItem }}>
+    <CartContext.Provider
+      value={{
+        ...state,
+        addItem,
+        removeItem,
+        updateItemQuantity,
+        clearCart,
+        decrementQuantity,
+        incrementQuantity,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
