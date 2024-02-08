@@ -59,7 +59,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
   useEffect(() => {
     if (quantity === "") return;
     updateItemQuantity(item.id, parseInt(quantity));
-  }, [quantity]);
+  }, [quantity, item.id, updateItemQuantity]);
 
   return (
     <Card key={item.id}>
