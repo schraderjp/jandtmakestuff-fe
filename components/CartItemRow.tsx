@@ -62,51 +62,53 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
   }, [quantity]);
 
   return (
-    <Card key={item.id}>
+    <Card className="overflow-hidden" key={item.id}>
       <div className="flex">
         <div className="p-2">
-          <div className="h-full w-16 border flex-shrink items-center justify-center">
+          <div className="h-full relative w-16 border flex-shrink items-center justify-center">
             {/* To be replaced with Next/Image component once images are added to Sanity schema */}
+            <Button
+              className="h-8 w-8 absolute -top-2 -left-2 p-0 rounded-full"
+              onClick={() => removeItem(item.id)}
+              size={"sm"}
+              variant={"secondary"}
+            >
+              <X />
+            </Button>
             <p className="flex w-full h-full items-center justify-center">
               Image
             </p>
           </div>
         </div>
-        <div className="w-full">
-          <CardHeader className="p-2">
+        <div className="w-full overflow-hidden">
+          <CardHeader className="p-2 ">
             <div className="px-2 w-full">
-              <CardTitle className="text-left text-lg ">{item.name}</CardTitle>
-              <CardDescription className="text-left text-lg">
+              <CardTitle className="text-left text-base sm:text-lg text-ellipsis whitespace-nowrap overflow-hidden  ">
+                {item.name}
+              </CardTitle>
+              <CardDescription className="text-left text-base sm:text-lg">
                 <Currency number={item.price} currency="usd" />
               </CardDescription>
             </div>
           </CardHeader>
           <CardContent className="flex items-center gap-x-2 justify-between p-2 w-full flex-grow">
-            <Button
-              className="h-12 w-12"
-              onClick={() => removeItem(item.id)}
-              size={"sm"}
-              variant={"outline"}
-            >
-              <Trash />
-            </Button>
-            <div className="flex items-center gap-x-1 justify-center">
+            <div className="flex items-center justify-center">
               <Button
                 variant={"secondary"}
-                className="h-12 w-12"
+                className="h-8 w-8  sm:h-12 sm:w-12 p-1 rounded-none"
                 onClick={() => {
                   setItemQuantity((quantity) =>
                     (parseInt(quantity) - 1).toString()
                   );
                 }}
               >
-                <Minus />
+                <Minus className="" />
               </Button>
 
               <Input
                 ref={ref}
                 type="text"
-                className="h-12 w-12 text-center text-lg"
+                className="h-8 w-8 sm:h-12 sm:w-12 text-center text-sm sm:text-lg rounded-none"
                 id={`input-${id}`}
                 name="quantity"
                 onKeyDown={handleInputKeyDown}
@@ -117,7 +119,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
                 value={quantity}
               />
               <Button
-                className="h-12 w-12"
+                className="h-8 w-8 sm:h-12 sm:w-12 p-1 rounded-none"
                 variant={"secondary"}
                 onClick={() => {
                   setItemQuantity((quantity) =>
@@ -125,7 +127,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
                   );
                 }}
               >
-                <Plus size={18} />
+                <Plus />
               </Button>
             </div>
           </CardContent>
