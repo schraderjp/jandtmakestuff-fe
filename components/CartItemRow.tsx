@@ -30,20 +30,8 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
   const [quantity, setItemQuantity] = useState<string>(
     item.quantity.toString()
   );
-  const {
-    removeItem,
-    incrementQuantity,
-    decrementQuantity,
-    updateItemQuantity,
-  } = useCart();
-  // const setQuantity = (
-  //   itemId: CartItem["id"],
-  //   e: ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   if (e.target.value === "") return;
-  //   updateItemQuantity(itemId, parseInt(e.target.value));
-  // };
-  const ref = useRef<HTMLInputElement | null>(null);
+  const { removeItem, updateItemQuantity } = useCart();
+
   const id = useId();
   const handleInputKeyDown = (e: KeyboardEvent) => {
     console.log(e.key);
@@ -106,7 +94,6 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
               </Button>
 
               <Input
-                ref={ref}
                 type="text"
                 className="h-8 w-8 sm:h-12 sm:w-12 text-center text-sm sm:text-lg rounded-none"
                 id={`input-${id}`}

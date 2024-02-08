@@ -49,6 +49,8 @@ interface CartContextType extends InitialState {
   incrementQuantity: (id: CartItem["id"]) => void;
   decrementQuantity: (id: CartItem["id"]) => void;
   clearCart: () => void;
+  inCart: (id: CartItem["id"]) => boolean;
+  getItem: (id: CartItem["id"]) => CartItem | undefined;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(
@@ -113,6 +115,12 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
     dispatch({ type: "REMOVE_FROM_CART", id: itemId });
   };
 
+  const inCart = (id: CartItem["id"]) => {
+    return state.items.some((i: CartItem) => i.id === id);
+  };
+
+  const getItem = (id: CartItem["id"]) => state.items.find((i) => i.id === id);
+
   const updateItemQuantity = (id: CartItem["id"], quantity: number) => {
     if (quantity <= 0) {
       dispatch({ type: "REMOVE_FROM_CART", id });
@@ -162,6 +170,8 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
         clearCart,
         decrementQuantity,
         incrementQuantity,
+        inCart,
+        getItem,
       }}
     >
       {children}
