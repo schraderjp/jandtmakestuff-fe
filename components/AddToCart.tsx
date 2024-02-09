@@ -1,11 +1,12 @@
 "use client";
 
-import React, { KeyboardEvent } from "react";
+import React, { KeyboardEvent, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { CartItem, Product } from "@/types/type";
 import { useCart } from "@/lib/useCart";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "./ui/input";
+import QuantityInput from "./QuantityInput";
 
 const AddToCart = ({ product }: { product: Product }) => {
   const {
@@ -17,22 +18,16 @@ const AddToCart = ({ product }: { product: Product }) => {
     updateItemQuantity,
     items,
   } = useCart();
-
-  const handleInputKeyDown = (e: KeyboardEvent) => {
-    console.log(e.key);
-    if (
-      isNaN(parseInt(e.key)) &&
-      e.key !== "Backspace" &&
-      e.key !== "ArrowLeft" &&
-      e.key !== "ArrowRight" &&
-      e.key !== "Tab"
-    )
-      e.preventDefault();
-  };
-
+  const itemInCart = getItem(product.id);
+  const [isInCart, setIsInCart] = useState(false);
+  const [quantity, setQuantity] = useState(itemInCart?.quantity || 1);
+  useEffect(() => {
+    if (!itemInCart || isNaN(quantity)) return;
+    updateItemQuantity(itemInCart.id, quantity);
+  }, [quantity]);
   return (
     <div>
-      {items && inCart(product.id) ? (
+      {itemInCart ? (
         <div className="flex gap-x-2">
           <Button
             className="w-10 h-10 px-1"
@@ -40,32 +35,24 @@ const AddToCart = ({ product }: { product: Product }) => {
             onClick={() => {
               const item = getItem(product.id);
               if (!item) return;
-              decrementQuantity(item.id);
+              setQuantity((prev) => prev - 1);
             }}
           >
             <Minus />
           </Button>
-          <Input
-            className="w-10 h-10 px-1 text-center text-lg"
-            onFocus={(e) => {
-              e.target.select();
-            }}
-            onKeyDown={handleInputKeyDown}
-            onChange={(e) => {
-              const item = getItem(product.id);
-              if (e.target.value === "" || !item) return;
-              updateItemQuantity(item.id, parseInt(e.target.value));
-            }}
-            type="text"
-            value={getItem(product.id)?.quantity}
+          <QuantityInput
+            quantity={quantity}
+            setQuantity={setQuantity}
+            cartItem={itemInCart}
           />
           <Button
             className="w-10 h-10 px-1"
             variant={"default"}
             onClick={() => {
+              if (quantity <= 0) return;
               const item = getItem(product.id);
               if (!item) return;
-              incrementQuantity(item.id);
+              setQuantity((prev) => prev + 1);
             }}
           >
             <Plus />
