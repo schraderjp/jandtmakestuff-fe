@@ -1,12 +1,15 @@
 import React from "react";
 import ProductCard from "./ProductCard";
+import { Product } from "@/types/type";
 import { getProducts } from "@/app/utils/sanityConfig";
+
+export const dynamic = "force-dynamic";
 
 const ProductList = async () => {
   const products = await getProducts();
   return (
     <>
-      {products.map((product) => (
+      {products.map((product: Product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </>
