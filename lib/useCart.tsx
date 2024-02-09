@@ -197,7 +197,7 @@ const generateCartState = (state = initialState, items: CartItem[]) => {
     ...initialState,
     ...state,
     items: calculateItemTotals(items),
-    totalItems: calculateTotalItems(items),
+    totalQuantity: calculateTotalItems(items),
     totalLineItems,
     cartTotal: calculateTotal(items),
     isEmpty,
@@ -212,8 +212,10 @@ const calculateItemTotals = (items: CartItem[]) => {
   return newItems;
 };
 
-const calculateTotal = (items: CartItem[]) =>
-  items.reduce((total, item) => total + item.quantity! * item.price, 0);
+const calculateTotal = (items: CartItem[]) => {
+  return items.reduce((total, item) => total + item.quantity! * item.price, 0);
+};
 
-const calculateTotalItems = (items: CartItem[]) =>
-  items.reduce((sum, item) => sum + item.quantity!, 0);
+const calculateTotalItems = (items: CartItem[]) => {
+  return items.reduce((sum, item) => sum + item.quantity!, 0);
+};

@@ -3,7 +3,7 @@ import { Input } from "./ui/input";
 import { CartItem } from "@/types/type";
 import { useCart } from "@/lib/useCart";
 import { Button } from "./ui/button";
-import { Minus, Plus, Trash } from "lucide-react";
+import { Minus, Plus, Trash, X } from "lucide-react";
 
 const QuantityInput = ({ cartItem }: { cartItem: CartItem }) => {
   const [quantity, setItemQuantity] = useState<string>(

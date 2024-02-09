@@ -16,11 +16,11 @@ import CartItemRow from "./CartItemRow";
 import Currency from "./atoms/Currency";
 
 const CartItemsList = () => {
-  const { items, removeItem, cartTotal } = useCart();
+  const { items, removeItem, cartTotal, totalQuantity } = useCart();
   const [quantity, setQuantity] = useState(false);
   if (items.length === 0)
     return (
-      <p className="h-24 flex items-center justify-center">
+      <p className="py-8 flex items-center justify-center">
         Your cart is currently empty.
       </p>
     );
