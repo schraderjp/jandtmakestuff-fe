@@ -15,6 +15,7 @@ const AddToCart = ({ product }: { product: Product }) => {
     incrementQuantity,
     decrementQuantity,
     updateItemQuantity,
+    items,
   } = useCart();
 
   const handleInputKeyDown = (e: KeyboardEvent) => {
@@ -31,7 +32,7 @@ const AddToCart = ({ product }: { product: Product }) => {
 
   return (
     <div>
-      {inCart(product.id) ? (
+      {items && inCart(product.id) ? (
         <div className="flex gap-x-2">
           <Button
             className="w-10 h-10 px-1"
