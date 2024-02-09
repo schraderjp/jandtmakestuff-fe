@@ -24,32 +24,7 @@ const AddToCart = ({ product }: { product: Product }) => {
   return (
     <div>
       {isInCart ? (
-        <div className="flex gap-x-2">
-          <Button
-            className="w-10 h-10 px-1"
-            variant={"default"}
-            onClick={() => {
-              const currentItem = getItem(product.id);
-              if (!currentItem) return;
-
-              updateItemQuantity(currentItem.id, currentItem.quantity - 1);
-            }}
-          >
-            {getItem(product.id)?.quantity === 1 ? <Trash /> : <Minus />}
-          </Button>
-          <QuantityInput cartItem={getItem(product.id) as CartItem} />
-          <Button
-            className="w-10 h-10 px-1"
-            variant={"default"}
-            onClick={() => {
-              const currentItem = getItem(product.id);
-              if (!currentItem) return;
-              updateItemQuantity(currentItem.id, currentItem.quantity + 1);
-            }}
-          >
-            <Plus />
-          </Button>
-        </div>
+        <QuantityInput cartItem={getItem(product.id) as CartItem} />
       ) : (
         <Button
           className="text-lg  h-10 "
