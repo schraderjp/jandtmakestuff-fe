@@ -53,7 +53,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
   return (
     <Card className="overflow-hidden" key={item.id}>
       <div className="flex">
-        <div className="p-2">
+        <div className="p-1">
           <div className="h-full relative w-16 sm:w-24 border flex-shrink items-center justify-center">
             {/* To be replaced with Next/Image component once images are added to Sanity schema */}
             <Button
@@ -96,7 +96,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
 
               <Input
                 type="text"
-                className="h-8 w-8 sm:h-12 sm:w-12 text-center text-sm sm:text-lg rounded-none"
+                className="h-8 w-8 p-0 sm:h-12 sm:w-12 text-center text-sm sm:text-lg rounded-none"
                 id={`input-${id}`}
                 name="quantity"
                 onKeyDown={handleInputKeyDown}
