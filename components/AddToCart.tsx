@@ -4,20 +4,12 @@ import React, { KeyboardEvent, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { CartItem, Product } from "@/types/type";
 import { useCart } from "@/lib/useCart";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash } from "lucide-react";
 import { Input } from "./ui/input";
 import QuantityInput from "./QuantityInput";
 
 const AddToCart = ({ product }: { product: Product }) => {
-  const {
-    addItem,
-    inCart,
-    getItem,
-    incrementQuantity,
-    decrementQuantity,
-    updateItemQuantity,
-    items,
-  } = useCart();
+  const { addItem, inCart, getItem, updateItemQuantity, items } = useCart();
   //
   const [isInCart, setIsInCart] = useState(false);
   const [quantity, setQuantity] = useState("");
@@ -43,11 +35,9 @@ const AddToCart = ({ product }: { product: Product }) => {
               updateItemQuantity(currentItem.id, currentItem.quantity - 1);
             }}
           >
-            <Minus />
+            {getItem(product.id)?.quantity === 1 ? <Trash /> : <Minus />}
           </Button>
-          <p className="w-10 h-10 px-1 border rounded-md text-center flex items-center justify-center text-lg">
-            {getItem(product.id)?.quantity}
-          </p>
+          <QuantityInput cartItem={getItem(product.id) as CartItem} />
           <Button
             className="w-10 h-10 px-1"
             variant={"default"}
