@@ -27,7 +27,7 @@ const Cart = () => {
           <ShoppingCart size={24} />
         </Button>
       </SheetTrigger>
-      <SheetContent className="h-full">
+      <SheetContent className="h-full p-2">
         <SheetClose></SheetClose>
         <SheetHeader>
           <SheetTitle className="text-center text-xl">Shopping Cart</SheetTitle>

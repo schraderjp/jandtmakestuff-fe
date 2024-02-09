@@ -18,7 +18,7 @@ import {
 import { CartItem } from "@/types/type";
 import Currency from "./atoms/Currency";
 import { Button } from "./ui/button";
-import { Minus, Plus, X } from "lucide-react";
+import { Equal, Minus, Plus, Trash, X } from "lucide-react";
 import { useCart } from "@/lib/useCart";
 import { Input } from "./ui/input";
 
@@ -51,26 +51,22 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
   }, [quantity]);
 
   return (
-    <Card className="overflow-hidden" key={item.id}>
-      <div className="flex">
+    <Card
+      className="overflow-hidden border-x-0 shadow-none rounded-none py-2"
+      key={item.id}
+    >
+      <div className="flex w-full">
         <div className="p-1">
           <div className="h-full relative w-16 sm:w-24 border flex-shrink items-center justify-center">
             {/* To be replaced with Next/Image component once images are added to Sanity schema */}
-            <Button
-              className="h-8 w-8 absolute -top-2 -left-2 p-0 rounded-full"
-              onClick={() => removeItem(item.id)}
-              size={"sm"}
-              variant={"secondary"}
-            >
-              <X />
-            </Button>
-            <p className="flex w-full h-full items-center justify-center">
+
+            <p className="flex w-full h-full rounded-md items-center justify-center">
               Image
             </p>
           </div>
         </div>
         <div className="w-full overflow-hidden">
-          <CardHeader className="p-2 ">
+          <CardHeader className="p-0">
             <div className="px-2 w-full">
               <CardTitle className="text-left text-base sm:text-lg text-ellipsis whitespace-nowrap overflow-hidden  ">
                 {item.name}
@@ -80,23 +76,23 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
               </CardDescription>
             </div>
           </CardHeader>
-          <CardContent className="flex items-center gap-x-2 justify-between p-2 w-full flex-grow">
-            <div className="flex items-center justify-center">
+          <CardContent className="flex items-center gap-x-2 justify-between px-2 py-1 w-full flex-grow">
+            <div className="flex items-center justify-start w-full">
               <Button
                 variant={"secondary"}
-                className="h-8 w-8  sm:h-12 sm:w-12 p-1 rounded-none"
+                className="h-8 w-8 p-2 rounded-none"
                 onClick={() => {
                   setItemQuantity((quantity) =>
                     (parseInt(quantity) - 1).toString()
                   );
                 }}
               >
-                <Minus className="" />
+                {item.quantity === 1 ? <Trash /> : <Minus className="" />}
               </Button>
 
               <Input
                 type="text"
-                className="h-8 w-8 p-0 sm:h-12 sm:w-12 text-center text-sm sm:text-lg rounded-none"
+                className="h-8 w-20 p-0 text-center text-sm  rounded-none"
                 id={`input-${id}`}
                 name="quantity"
                 onKeyDown={handleInputKeyDown}
@@ -107,7 +103,7 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
                 value={quantity}
               />
               <Button
-                className="h-8 w-8 sm:h-12 sm:w-12 p-1 rounded-none"
+                className="h-8 w-8  p-2 rounded-none"
                 variant={"secondary"}
                 onClick={() => {
                   setItemQuantity((quantity) =>
