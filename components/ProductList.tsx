@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ProductCard from "./ProductCard";
 import { getProducts } from "@/app/utils/sanityConfig";
