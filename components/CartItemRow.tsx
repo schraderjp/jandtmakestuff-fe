@@ -18,7 +18,7 @@ import {
 import { CartItem } from "@/types/type";
 import Currency from "./atoms/Currency";
 import { Button } from "./ui/button";
-import { Minus, Plus, Trash, X } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 import { useCart } from "@/lib/useCart";
 import { Input } from "./ui/input";
 
@@ -38,8 +38,9 @@ const CartItemRow = ({ item }: CartItemRowProps) => {
     if (
       isNaN(parseInt(e.key)) &&
       e.key !== "Backspace" &&
-      e.key !== "LeftArrow" &&
-      e.key !== "RightArrow"
+      e.key !== "ArrowRight" &&
+      e.key !== "ArrowLeft" &&
+      e.key !== "Tab"
     )
       e.preventDefault();
   };

@@ -1,57 +1,78 @@
 "use client";
 
-import React, { KeyboardEvent, useEffect, useId, useState } from "react";
+import React, { KeyboardEvent } from "react";
 import { Button } from "./ui/button";
 import { CartItem, Product } from "@/types/type";
 import { useCart } from "@/lib/useCart";
 import { Minus, Plus } from "lucide-react";
 import { Input } from "./ui/input";
-import Quantity from "./Quantity";
 
 const AddToCart = ({ product }: { product: Product }) => {
   const {
     addItem,
-    items,
     inCart,
     getItem,
     incrementQuantity,
     decrementQuantity,
     updateItemQuantity,
   } = useCart();
-  const [quantity, setQuantity] = useState(getItem(product.id)?.quantity);
+
   const handleInputKeyDown = (e: KeyboardEvent) => {
     console.log(e.key);
     if (
       isNaN(parseInt(e.key)) &&
       e.key !== "Backspace" &&
-      e.key !== "LeftArrow" &&
-      e.key !== "RightArrow"
+      e.key !== "ArrowLeft" &&
+      e.key !== "ArrowRight" &&
+      e.key !== "Tab"
     )
       e.preventDefault();
   };
-  useEffect(() => {
-    if (!getItem(product.id)) return;
-    setQuantity(getItem(product.id)?.quantity);
-  }, [items]);
 
   return (
-    <>
+    <div>
       {inCart(product.id) ? (
-        <>
-          <Button onClick={() => decrementQuantity(product.id)}>-</Button>
+        <div className="flex gap-x-2">
+          <Button
+            className="w-10 h-10 px-1"
+            variant={"default"}
+            onClick={() => {
+              const item = getItem(product.id);
+              if (!item) return;
+              decrementQuantity(item.id);
+            }}
+          >
+            <Minus />
+          </Button>
           <Input
+            className="w-10 h-10 px-1 text-center text-lg"
+            onFocus={(e) => {
+              e.target.select();
+            }}
             onKeyDown={handleInputKeyDown}
             onChange={(e) => {
-              updateItemQuantity(product.id, parseInt(e.target.value));
+              const item = getItem(product.id);
+              if (e.target.value === "" || !item) return;
+              updateItemQuantity(item.id, parseInt(e.target.value));
             }}
             type="text"
-            value={quantity}
-            // defaultValue={getItem(product.id)?.quantity}
+            value={getItem(product.id)?.quantity}
           />
-          <Button onClick={() => incrementQuantity(product.id)}>+</Button>
-        </>
+          <Button
+            className="w-10 h-10 px-1"
+            variant={"default"}
+            onClick={() => {
+              const item = getItem(product.id);
+              if (!item) return;
+              incrementQuantity(item.id);
+            }}
+          >
+            <Plus />
+          </Button>
+        </div>
       ) : (
         <Button
+          className="text-lg  h-10 "
           onClick={() =>
             addItem({
               id: product.id,
@@ -66,7 +87,7 @@ const AddToCart = ({ product }: { product: Product }) => {
           Add to Cart
         </Button>
       )}
-    </>
+    </div>
   );
 };
 

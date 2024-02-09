@@ -1,20 +1,12 @@
 "use client";
 
-import { Loader2Icon, LoaderIcon } from "lucide-react";
-import dynamic from "next/dynamic";
 import React from "react";
 import Cart from "./Cart";
 
-// const Cart = dynamic(() => import('../components/Cart'), {
-//   ssr: false,
-//   loading: () => <Loader />,
-// });
-
-const Loader = () => <Loader2Icon className="ml-auto animate-spin" size={24} />;
-
 const Navbar = () => {
   return (
-    <nav className="px-1 py-2 flex">
+    <nav className="px-1 py-2 flex items-center justify-between">
+      <h1 className="pl-4 text-2xl font-bold">J and T Make Stuff</h1>
       <Cart />
     </nav>
   );
