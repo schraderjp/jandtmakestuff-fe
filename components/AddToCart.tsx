@@ -23,7 +23,7 @@ const AddToCart = ({ product }: { product: Product }) => {
   }, [items]);
   return (
     <div>
-      {isInCart ? (
+      {isInCart && getItem(product.id) ? (
         <QuantityInput cartItem={getItem(product.id) as CartItem} />
       ) : (
         <Button

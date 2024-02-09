@@ -9,7 +9,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="p-2">
       <Card key={product.id}>
-        <CardHeader>{product.name}</CardHeader>
+        <CardHeader className="text-xl font-bold">{product.name}</CardHeader>
         <CardContent>
           <PortableText value={product.description} />
           <p className="text-lg pt-4">

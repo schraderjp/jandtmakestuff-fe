@@ -38,16 +38,18 @@ const QuantityInput = ({ cartItem }: { cartItem: CartItem }) => {
       >
         {cartItem.quantity === 1 ? <Trash /> : <Minus />}
       </Button>
-      <Input
-        id={`input-${id}`}
-        className="w-10 h-10 px-1 text-center text-lg"
-        onKeyDown={handleInputKeyDown}
-        onChange={(e) => {
-          setItemQuantity(e.target.value);
-        }}
-        type="text"
-        value={quantity}
-      />
+      {
+        <Input
+          id={`input-${id}`}
+          className="w-10 h-10 px-1 text-center text-lg"
+          onKeyDown={handleInputKeyDown}
+          onChange={(e) => {
+            setItemQuantity(e.target.value);
+          }}
+          type="text"
+          value={quantity}
+        />
+      }
       <Button
         className="w-10 h-10 px-1"
         variant={"default"}
