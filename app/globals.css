@@ -74,3 +74,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .grid-temp-row-card {
+    grid-template-columns: 12rem auto;
+  }
+}
