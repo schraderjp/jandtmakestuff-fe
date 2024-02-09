@@ -18,41 +18,43 @@ const AddToCart = ({ product }: { product: Product }) => {
     updateItemQuantity,
     items,
   } = useCart();
-  const itemInCart = getItem(product.id);
+  //
   const [isInCart, setIsInCart] = useState(false);
-  const [quantity, setQuantity] = useState(itemInCart?.quantity || 1);
+  const [quantity, setQuantity] = useState("");
+
   useEffect(() => {
-    if (!itemInCart || isNaN(quantity)) return;
-    updateItemQuantity(itemInCart.id, quantity);
-  }, [quantity]);
+    if (!inCart(product.id)) {
+      setIsInCart(false);
+      return;
+    }
+    setIsInCart(true);
+  }, [items]);
   return (
     <div>
-      {itemInCart ? (
+      {isInCart ? (
         <div className="flex gap-x-2">
           <Button
             className="w-10 h-10 px-1"
             variant={"default"}
             onClick={() => {
-              const item = getItem(product.id);
-              if (!item) return;
-              setQuantity((prev) => prev - 1);
+              const currentItem = getItem(product.id);
+              if (!currentItem) return;
+
+              updateItemQuantity(currentItem.id, currentItem.quantity - 1);
             }}
           >
             <Minus />
           </Button>
-          <QuantityInput
-            quantity={quantity}
-            setQuantity={setQuantity}
-            cartItem={itemInCart}
-          />
+          <p className="w-10 h-10 px-1 border rounded-md text-center flex items-center justify-center text-lg">
+            {getItem(product.id)?.quantity}
+          </p>
           <Button
             className="w-10 h-10 px-1"
             variant={"default"}
             onClick={() => {
-              if (quantity <= 0) return;
-              const item = getItem(product.id);
-              if (!item) return;
-              setQuantity((prev) => prev + 1);
+              const currentItem = getItem(product.id);
+              if (!currentItem) return;
+              updateItemQuantity(currentItem.id, currentItem.quantity + 1);
             }}
           >
             <Plus />
