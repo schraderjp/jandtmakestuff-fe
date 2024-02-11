@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.29.7",
     "@portabletext/react": "^3.0.11",
     "@portabletext/types": "^2.0.8",
     "@radix-ui/react-dialog": "^1.0.5",

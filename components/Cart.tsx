@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Loader2Icon, ShoppingCart } from "lucide-react";
-import { Button } from "./ui/button";
-import { initiateCheckout } from "@/lib/actions";
+import { Loader2Icon, ShoppingCart } from 'lucide-react';
+import { Button } from './ui/button';
+import { initiateCheckout } from '@/lib/actions';
 import {
   Sheet,
   SheetClose,
@@ -12,23 +12,24 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./ui/sheet";
-import { useCart } from "@/lib/useCart";
-import CartItemsList from "./CartItemsList";
-import CartItemsListTest from "./CartItemsList";
-import { useFormStatus } from "react-dom";
-import CheckoutButton from "./CheckoutButton";
-import { cn } from "@/lib/utils";
-// import { Badge } from "./ui/badge";
-import Currency from "./atoms/Currency";
-import dynamic from "next/dynamic";
+} from './ui/sheet';
+import { useCart } from '@/lib/useCart';
+import CartItemsList from './CartItemsList';
+import CartItemsListTest from './CartItemsList';
+import { useFormStatus } from 'react-dom';
+import CheckoutButton from './CheckoutButton';
+import { cn } from '@/lib/utils';
+import { useUser } from '@clerk/nextjs';
+import Currency from './atoms/Currency';
+import dynamic from 'next/dynamic';
 
-const CartCountIndicator = dynamic(() => import("./CartCountIndicator"), {
+const CartCountIndicator = dynamic(() => import('./CartCountIndicator'), {
   ssr: false,
 });
 
 const Cart = () => {
   const { items, totalQuantity, cartTotal } = useCart();
+  const { isLoaded, user, isSignedIn } = useUser();
   const initiateCheckoutWithData = initiateCheckout.bind(null, items);
   return (
     <Sheet>
@@ -42,7 +43,9 @@ const Cart = () => {
         <SheetClose></SheetClose>
         <SheetHeader>
           <SheetTitle className="text-center text-xl">Shopping Cart</SheetTitle>
-          <SheetDescription></SheetDescription>
+          <SheetDescription>
+            <p>{user?.primaryEmailAddress?.emailAddress}</p>
+          </SheetDescription>
           <CartItemsList />
         </SheetHeader>
         <SheetFooter className="mt-auto ">
