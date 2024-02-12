@@ -16,11 +16,11 @@ export const validateCart = (productList: Product[], cart: CartItem[]) => {
       id: currentProduct.id,
       name: currentProduct.name,
       price: currentProduct.price,
-        quantity: cart[id].quantity,
-
+      quantity: cart[id].quantity,
+      totalPrice: cart[id].quantity * cart[id].price,
     };
-      validatedItems.push(validatedItem);
-    }
-    
-    return validatedItems;
+    validatedItems.push(validatedItem);
+  }
+
+  return validatedItems;
 };

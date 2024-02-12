@@ -7,6 +7,7 @@ export const client = createClient({
   useCdn: true,
   apiVersion: '2024-01-23',
   token: process.env.SANITY_API_TOKEN,
+  withCredentials: true,
 });
 
 export async function getProducts(): Promise<Product[]> {

@@ -44,7 +44,6 @@ const Cart = () => {
         <SheetHeader>
           <SheetTitle className="text-center text-xl">Shopping Cart</SheetTitle>
           <SheetDescription>
-            <p>{user?.primaryEmailAddress?.emailAddress}</p>
           </SheetDescription>
           <CartItemsList />
         </SheetHeader>
