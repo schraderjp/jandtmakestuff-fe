@@ -1,5 +1,7 @@
 "use client";
 
+import { client } from "@/app/utils/sanityConfig";
+import { useUser } from "@clerk/nextjs";
 import { TypedObject } from "@portabletext/types";
 import {
   PropsWithChildren,
@@ -8,9 +10,9 @@ import {
   useContext,
   useEffect,
   useReducer,
-  useState,
 } from "react";
 import { useLocalStorage } from "usehooks-ts";
+// import { useSanityCart } from "./useSanityCart";
 
 export type CartItem = {
   id: string;
@@ -35,7 +37,7 @@ type Action =
   | { type: "UPDATE_ITEM"; id: string; payload: object }
   | { type: "CLEAR_CART" };
 
-const initialState: any = {
+export const initialState: any = {
   items: [],
   totalLineItems: 0,
   totalQuantity: 0,
@@ -87,6 +89,8 @@ const reducer: Reducer<CartContextType, Action> = (state, action) => {
 };
 
 export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
+  const { user } = useUser();
+  // const { sanityCart, addItemToSanityCart } = useSanityCart();
   const [savedCart, saveCart] = useLocalStorage("jandtmakestuff-cart", {
     ...initialState,
   });
@@ -96,9 +100,8 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
   const addItem = (item: CartItem, quantity = 1) => {
     if (!item.id) throw new Error("You must provide an `id` for items");
     if (quantity <= 0) return;
-
+    // if (user) return addItemToSanityCart(item);
     const currentItem = state.items.find((i: CartItem) => i.id === item.id);
-
     if (!currentItem) {
       const payload = { ...item, quantity };
       dispatch({ type: "ADD_TO_CART", payload });
@@ -106,6 +109,9 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>) => {
     }
 
     const payload = { ...item, quantity: currentItem.quantity + quantity };
+    if (user) {
+      return;
+    }
     dispatch({ type: "UPDATE_ITEM", id: item.id, payload: payload });
   };
 
